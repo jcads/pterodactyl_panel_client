@@ -1,6 +1,9 @@
 # TODO: Write documentation for `PterodactylPanelClient`
+require "json"
+require "http"
+
+require "./client"
+require "./models/*"
 module PterodactylPanelClient
   VERSION = "0.1.0"
-
-  # TODO: Put your code here
 end
