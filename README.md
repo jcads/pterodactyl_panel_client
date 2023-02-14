@@ -37,6 +37,27 @@ API Reference is available on [Dashflo](https://dashflo.net/docs/api/pterodactyl
 
 These methods are scoped to the user accessing them (i.e. if you query for servers, you will only see your servers and not other's servers). You must authenticate using a token starting with `ptlc_` and this is generated when you create a user using the application resource method.
 
+- list servers
+- account => get account details
+- account => update email
+- network => list allocations
+- network => assign allocation
+- network => set allocation note
+- network => set primary allocation
+- network => unassign allocation
+- backups => list backups
+- backups => create backup
+- backups => backup detaials
+- backups => download backup
+- backups => delete backup
+- settings => rename server
+- settings => reinstall server
+- get server details
+- get console details
+- get resource usage
+- send command
+- change power state
+
 ### Application Resource Methods
 
 To use these methods, you must authenticate using a token starting with `ptla_` which can be generated if you are an Admin on your Pterodactyl panel.
@@ -82,7 +103,7 @@ client.update_server(:build, allocation: 1, memory: 512, swap: 0, disk: 200, io:
 
 Update startup
 ```crystal
-client.uppdate_server(:startup, startup: "java -Xms128M -Xmx{{SERVER_MEMORY}}M -jar {{SERVER_JARFILE}}", environment: {
+client.update_server(:startup, startup: "java -Xms128M -Xmx{{SERVER_MEMORY}}M -jar {{SERVER_JARFILE}}", environment: {
     "SERVER_JARFILE": "server.jar",
     "VANILLA_VERSION": "latest"
   }, egg: 5, image: "quay.io/pterodactyl/core:java", skip_scripts: false)
