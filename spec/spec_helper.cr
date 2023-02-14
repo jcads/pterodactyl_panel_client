@@ -1,2 +1,4 @@
 require "spec"
-require "../src/pterodactyl_panel_client"
+require "webmock"
+Spec.before_each &->WebMock.reset
+require "../src/pterodactyl"

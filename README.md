@@ -22,8 +22,8 @@ require "pterodactyl_panel_client"
 
 Build a new Pterodactyl Panel Client
 ```crystal
-client_sdk = Pterodactyl::Client::Sdk.new("https://p2.hostari.com", client_token: "ptlc_...")
-application_sdk = Pterodactyl::Application::Sdk.new("https://p2.hostari.com", application_token: "ptla_...")
+client_sdk = Pterodactyl::Client::Sdk.new("p2.hostari.com", client_token: "ptlc_...")
+application_sdk = Pterodactyl::Application::Sdk.new("p2.hostari.com", application_token: "ptla_...")
 ```
 
 ## Resource Methods
@@ -90,17 +90,17 @@ client.get_server(5)
 
 Update server details
 ```crystal
-client.update_server(:details, id: 5, name: "name of the server", user: 1, external_id: "external id of the server", description: "description of the server")
+client.update_server_details(5, name: "name of the server", user: 1, external_id: "external id of the server", description: "description of the server")
 ```
 
 Update build
 ```crystal
-client.update_server(:build, allocation: 1, memory: 512, swap: 0, disk: 200, io: 500, cpu: 0, threads: nil, feature_limits: {"databases" => 5, "allocations" => 5, "backups" => 2})
+client.update_server_build(5, allocation: 1, memory: 512, swap: 0, disk: 200, io: 500, cpu: 0, threads: nil, feature_limits: {"databases" => 5, "allocations" => 5, "backups" => 2})
 ```
 
 Update startup
 ```crystal
-client.update_server(:startup, startup: "java -Xms128M -Xmx{{SERVER_MEMORY}}M -jar {{SERVER_JARFILE}}", environment: {
+client.update_server_startup(5, startup: "java -Xms128M -Xmx{{SERVER_MEMORY}}M -jar {{SERVER_JARFILE}}", environment: {
     "SERVER_JARFILE": "server.jar",
     "VANILLA_VERSION": "latest"
   }, egg: 5, image: "quay.io/pterodactyl/core:java", skip_scripts: false)
