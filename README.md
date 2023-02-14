@@ -22,11 +22,8 @@ require "pterodactyl_panel_client"
 
 Build a new Pterodactyl Panel Client
 ```crystal
-client = Pterodactyl::Client.new(
-  "https://pterodactyl.example.com",
-  application_token: "ptla_...",
-  client_token: "ptlc_..."
-)
+client_sdk = Pterodactyl::Client::Sdk.new("https://p2.hostari.com", client_token: "ptlc_...")
+application_sdk = Pterodactyl::Application::Sdk.new("https://p2.hostari.com", application_token: "ptla_...")
 ```
 
 ## Resource Methods
