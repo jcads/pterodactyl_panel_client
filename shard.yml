@@ -1,0 +1,9 @@
+name: pterodactyl_panel_client
+version: 0.1.0
+
+authors:
+  - your-name-here <your-email-here>
+
+crystal: 1.6.2
+
+license: MIT
