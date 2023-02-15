@@ -1,0 +1,12 @@
+{
+  "object": "user",
+  "attributes": {
+    "id": 1,
+    "admin": true,
+    "username": "admin",
+    "email": "example@example.com",
+    "first_name": "Admin",
+    "last_name": "User",
+    "language": "en"
+  }
+}
