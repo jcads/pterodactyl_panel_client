@@ -33,14 +33,13 @@ class Pterodactyl::ApplicationSdk
 
   def list_servers
     result = @client.get(build_path("/servers"))
-    result
-    # ServerList.from_json(result)
+    servers = Models::APIResponse(Models::ApplicationServer).from_json result.body
+    servers.data.map &.attributes
   end
 
   def get_server(id : Int32 | Int64 | String)
     result = @client.get(build_path("/servers/#{id}"))
-    result
-    # Server.from_json(result)
+    Models::Data(Models::ApplicationServer).from_json(result.body).attributes
   end
 
   def update_server_details(

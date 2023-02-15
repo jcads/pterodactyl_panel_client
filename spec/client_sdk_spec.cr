@@ -18,7 +18,7 @@ describe Pterodactyl::ClientSdk do
     servers = client.get_servers
 
     servers[0].feature_limits.databases.should eq(5)
-    servers.should be_a(Array(Pterodactyl::Models::Server))
+    servers.should be_a(Array(Pterodactyl::Models::ClientServer))
   end
 
   it "get server details" do
@@ -28,6 +28,6 @@ describe Pterodactyl::ClientSdk do
     server = client.get_server_details("1a7ce997")
 
     server.description.should eq("Matt from Wii Sports")
-    server.should be_a(Pterodactyl::Models::Server)
+    server.should be_a(Pterodactyl::Models::ClientServer)
   end
 end
