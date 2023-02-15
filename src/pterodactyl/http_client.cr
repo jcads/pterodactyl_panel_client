@@ -26,7 +26,7 @@ module Pterodactyl
 
     # Performs a GET request on the path.
     def get(path : String)
-      HTTP::Client.new(base_url).get(path)
+      HTTP::Client.new(base_url).get(path, headers: @headers)
     end
 
     # Performs a POST request on the path with a body.
@@ -46,7 +46,7 @@ module Pterodactyl
     end
 
     def delete(path : String)
-      HTTP::Client.new(base_url).delete(path)
+      HTTP::Client.new(base_url).delete(path, headers: @headers)
     end
   end
 end

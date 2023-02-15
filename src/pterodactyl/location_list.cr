@@ -3,5 +3,5 @@ include JSON::Serializable
 
 getter object : String
 getter data : Array(Location)
-getter meta : PaginationMeta
+# getter meta : PaginationMeta
 end

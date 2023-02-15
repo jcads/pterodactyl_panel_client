@@ -6,13 +6,11 @@ module Pterodactyl
       @client = HttpClient.new(@host, @client_token)
     end
 
-    def get_servers
+    def get_servers : Array(Models::Server)
       res = @client.get(base_path)
-      pp! res.body
       model = Models::APIResponse(Models::Server).from_json res.body
 
-      pp! model
-      # model.data.map &.attributes
+      model.data.map &.attributes
     end
 
     def get_server_details(identifier : String) : Models::Server
@@ -21,9 +19,10 @@ module Pterodactyl
       server.attributes
     end
 
-    def get_account_details : UserAttributes
-      res = @client.get base_path
-      Models::Data(UserAttributes).from_json res.body
+    def get_account_details : Models::AccountDetails
+      res = @client.get build_path("/account")
+      user = Models::Data(Models::AccountDetails).from_json res.body
+      user.attributes
     end
 
     def update_email(email : String)

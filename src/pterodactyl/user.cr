@@ -1,8 +1,8 @@
 class Pterodactyl::User
-import JSON::Serializable
+include JSON::Serializable
 
 getter object : String
 getter attributes : UserAttributes
-getter meta : UserMetadata
+# getter meta : UserMetadata
 
 end
