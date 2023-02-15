@@ -1,5 +1,5 @@
 module Pterodactyl::Models
-  struct Locations
+  struct Location
     include JSON::Serializable
 
     getter id : Int32

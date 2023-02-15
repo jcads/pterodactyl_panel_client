@@ -21,13 +21,13 @@ class Pterodactyl::ApplicationSdk
     Models::APIResponse(Models::User).from_json(result.body).attributes
   end
 
-  def list_locations : Array(Models::Locations)
+  def list_locations : Array(Models::Location)
     result = @client.get(build_path("/locations"))
     locations = Models::APIResponse(Models::Location).from_json(result.body)
     locations.data.map &.attributes
   end
 
-  def get_location(id : Int32 | Int64 | String) : Models::Locations
+  def get_location(id : Int32 | Int64 | String) : Models::Location
     result = @client.get(build_path("/locations/#{id}"))
     Models::Data(Models::Location).from_json(result.body).attributes
   end
