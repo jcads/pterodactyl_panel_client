@@ -15,7 +15,7 @@ module Pterodactyl
 
     def get_server_details(identifier : String) : Models::Server
       res = @client.get build_path("/servers/#{identifier}")
-      server = Data(Models::Server).from_json res.body
+      server = Models::Data(Models::Server).from_json res.body
       server.attributes
     end
 

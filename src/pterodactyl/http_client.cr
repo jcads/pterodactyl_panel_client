@@ -40,7 +40,7 @@ module Pterodactyl
         .patch(path, headers: @headers, body: body)
     end
 
-    def patch(path : String, body : String = "")
+    def put(path : String, body : String = "")
       HTTP::Client.new(base_url)
         .put(path, headers: @headers, body: body)
     end
