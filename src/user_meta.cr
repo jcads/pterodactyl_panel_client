@@ -1,6 +1,6 @@
 class Pterodactyl::UserMeta
-include JSON::Serializable
+  include JSON::Serializable
 
-getter resource : String
-getter token : String
+  getter resource : String
+  getter token : String
 end

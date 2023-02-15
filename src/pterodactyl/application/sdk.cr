@@ -24,7 +24,7 @@ class Pterodactyl::ApplicationSdk
   def list_locations : Array(Models::Locations)
     result = @client.get(build_path("/locations"))
     locations = Models::APIResponse(Models::Location).from_json(result.body)
-    locations.data.map &.attributes 
+    locations.data.map &.attributes
   end
 
   def get_location(id : Int32 | Int64 | String) : Models::Locations

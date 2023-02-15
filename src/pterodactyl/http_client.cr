@@ -5,8 +5,8 @@ module Pterodactyl
 
     def initialize(@host : String, @token : String)
       @headers = HTTP::Headers{
-        "Content-Type" => "application/json", 
-        "Authorization" => "Bearer #{@token}"
+        "Content-Type"  => "application/json",
+        "Authorization" => "Bearer #{@token}",
       }
     end
 
