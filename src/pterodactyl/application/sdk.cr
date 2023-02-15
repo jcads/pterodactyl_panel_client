@@ -18,17 +18,18 @@ class Pterodactyl::ApplicationSdk
     last_name : String
   )
     result = @client.post(build_path("/users"), {email: email, username: username, first_name: first_name, last_name: last_name}.to_json)
-    User.from_json(result)
+    Models::APIResponse(Models::User).from_json(result.body).attributes
   end
 
-  def list_locations
+  def list_locations : Array(Models::Locations)
     result = @client.get(build_path("/locations"))
-    LocationList.from_json(result)
+    locations = Models::APIResponse(Models::Location).from_json(result.body)
+    locations.data.map &.attributes 
   end
 
-  def get_location(id : Int32 | Int64 | String)
+  def get_location(id : Int32 | Int64 | String) : Models::Locations
     result = @client.get(build_path("/locations/#{id}"))
-    Location.from_json(result)
+    Models::Data(Models::Location).from_json(result.body).attributes
   end
 
   def list_servers
@@ -40,6 +41,7 @@ class Pterodactyl::ApplicationSdk
   def get_server(id : Int32 | Int64 | String)
     result = @client.get(build_path("/servers/#{id}"))
     Models::Data(Models::ApplicationServer).from_json(result.body).attributes
+    # TODO: handle 404
   end
 
   def update_server_details(
@@ -50,8 +52,7 @@ class Pterodactyl::ApplicationSdk
     description : String? = nil
   )
     result = @client.patch(build_path("/servers/#{id}/details"), body: {id: id.to_i64, name: name, user: user, external_id: external_id, description: description}.to_json)
-    result
-    # Server.from_json(result)
+    Models::Data(Models::ApplicationServer).from_json(result.body).attributes
   end
 
   def update_server_build(
@@ -66,8 +67,7 @@ class Pterodactyl::ApplicationSdk
     threads : String? = nil
   )
     result = @client.patch(build_path("/servers/#{id}/build"), body: {id: id.to_i64, allocation: allocation, feature_limits: feature_limits, memory: memory, swap: swap, disk: disk, io: io, cpu: cpu, threads: threads}.to_json)
-    result
-    # Server.from_json(result)
+    Models::Data(Models::ApplicationServer).from_json(result.body).attributes
   end
 
   def update_server_startup(
@@ -78,14 +78,12 @@ class Pterodactyl::ApplicationSdk
     environment : Hash(String, String) = Hash.new
   )
     result = @client.patch(build_path("/servers/#{id}/startup"), body: {startup: startup, egg: egg, image: image, skip_scripts: skip_scripts, environment: environment}.to_json)
-    result
-    # Server.from_json(result)
+    Models::Data(Models::ApplicationServer).from_json(result.body).attributes
   end
 
   def create_server(create_server_request : CreateServerRequest)
     result = @client.post(build_path("/servers"), body: create_server_request.as_json)
-    result
-    # Server.from_json(result)
+    Models::Data(Models::ApplicationServer).from_json(result.body).attributes
   end
 
   def suspend_server(id : Int64 | Int32 | String)
