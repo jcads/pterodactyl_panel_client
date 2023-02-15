@@ -27,8 +27,7 @@ module Pterodactyl
 
     def update_email(email : String)
       payload = {"email" => email, "password" => "password"}
-      res = @client.put build_path("/account/email"), body: payload.to_json
-      # TODO: handle errors
+      @client.put build_path("/account/email"), body: payload.to_json
     end
 
     def get_allocations : Array(Models::Allocation)
@@ -58,8 +57,7 @@ module Pterodactyl
     end
 
     def unassign_allocation(server : Models::Server, allocation_id : Int64)
-      res = @client.post base_path("/servers/#{server.identifier}/network/allocations/#{allocation_id}")
-      # TODO: handle error
+      @client.delete base_path("/servers/#{server.identifier}/network/allocations/#{allocation_id}")
     end
 
     def get_backups(server : Models::Server) : Models::Backup
@@ -71,19 +69,19 @@ module Pterodactyl
     def create_backup(server : Models::Server) : Models::Backup
       res = @client.post build_path("/servers/#{server.identifier}/backups")
       backup = Models::Backup.from_json res.body
-      backups.attributes
+      backup.attributes
     end
 
     def get_backup_details(server : Models::Server, backup_uuid : String) : Models::Backup
       res = @client.get build_path("/servers/#{server.identifier}/backups/#{backup_uuid}")
       backup = Models::Backup.from_json res.body
-      backups.attributes
+      backup.attributes
     end
 
     def backup_download_url(server : Models::Server, backup_uuid : String) : String
       res = @client.get build_path("/servers/#{server.identifier}/backups/#{backup_uuid}/download")
       backup = Data(Models::BackupDownloadable).from_json res.body
-      backups.url
+      backup.url
     end
 
     def delete_backup(server : Models::Server, backup_uuid : String) : Models::Backup
