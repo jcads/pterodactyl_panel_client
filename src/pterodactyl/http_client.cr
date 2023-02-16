@@ -6,6 +6,7 @@ module Pterodactyl
     def initialize(@host : String, @token : String)
       @headers = HTTP::Headers{
         "Content-Type"  => "application/json",
+        "Accept"        => "application/json",
         "Authorization" => "Bearer #{@token}",
       }
     end
@@ -26,27 +27,43 @@ module Pterodactyl
 
     # Performs a GET request on the path.
     def get(path : String)
-      HTTP::Client.new(base_url).get(path, headers: @headers)
+      res = HTTP::Client.new(base_url).get(path, headers: @headers)
+      return raise_error(res) if res.status_code >= 400
+      res
     end
 
     # Performs a POST request on the path with a body.
     def post(path : String, body : String = "")
-      HTTP::Client.new(base_url)
+      res = HTTP::Client.new(base_url)
         .post(path, headers: @headers, body: body)
+
+      raise_error(res) if res.status_code >= 400
     end
 
     def patch(path : String, body : String = "")
-      HTTP::Client.new(base_url)
+      res = HTTP::Client.new(base_url)
         .patch(path, headers: @headers, body: body)
+
+      raise_error(res) if res.status_code >= 400
     end
 
     def put(path : String, body : String = "")
-      HTTP::Client.new(base_url)
+      res = HTTP::Client.new(base_url)
         .put(path, headers: @headers, body: body)
+
+      raise_error(res) if res.status_code >= 400
     end
 
     def delete(path : String)
-      HTTP::Client.new(base_url).delete(path, headers: @headers)
+      res = HTTP::Client.new(base_url).delete(path, headers: @headers)
+      raise_error(res) if res.status_code >= 400
+    end
+
+    private def raise_error(response : HTTP::Client::Response)
+      error_list = Models::ErrorList(Models::Error).from_json response.body
+      error_list.errors.each do |error|
+        raise APIError.new(error)
+      end
     end
   end
 end
