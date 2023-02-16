@@ -7,8 +7,10 @@ module Pterodactyl::Models
 
   struct Error
     include JSON::Serializable
-    getter code : String
-    getter status : String
+    @[JSON::Field(key: "code")]
+    getter error_type : String
+    @[JSON::Field(key: "status")]
+    getter status_code : String
     getter detail : String
     getter meta : ErrorMetadata?
   end
