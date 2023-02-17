@@ -1,3 +1,3 @@
 class Pterodactyl::Meta
-getter pagination : PaginationDetails?
+  getter pagination : PaginationDetails?
 end
