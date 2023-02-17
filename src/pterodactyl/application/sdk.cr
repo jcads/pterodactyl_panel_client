@@ -87,50 +87,48 @@ class Pterodactyl::ApplicationSdk
   end
 
   def suspend_server(id : Int64 | Int32 | String)
-    result = @client.post(build_path("/servers/#{id}/suspend"))
-    result # returns a 204
+    # returns a 204
+    @client.post(build_path("/servers/#{id}/suspend"))
   end
 
   def unsuspend_server(id : Int64 | Int32 | String)
-    result = @client.post(build_path("/servers/#{id}/unsuspend"))
-    result # returns a 204
+    # returns a 204
+    @client.post(build_path("/servers/#{id}/unsuspend"))
   end
 
   def reinstall_server(id : Int64 | Int32 | String)
-    result = @client.post(build_path("/servers/#{id}/reinstall"))
-    result # returns a 204
+    # returns a 204
+    @client.post(build_path("/servers/#{id}/reinstall"))
   end
 
   def delete_server(id : Int64 | Int32 | String, force : Bool = false)
+    # returns a 204
     if force
-      result = @client.delete(build_path("/server/#{id}"))
+      @client.delete(build_path("/server/#{id}"))
     else
-      result = @client.delete(build_path("/server/#{id}/force"))
+      @client.delete(build_path("/server/#{id}/force"))
     end
-    result # returns a 204
   end
 
-  def list_nests
+  def list_nests : Array(Models::Nest)
     result = @client.get(build_path("/nests"))
-    result
-    # NestList.from_json(result)
+    nests = Models::APIResponse(Models::Nest).from_json result.body
+    nests.data.map &.attributes
   end
 
   def get_nest(id : Int32 | Int64 | String)
     result = @client.get(build_path("/nests/#{id}"))
-    result
-    # Nest.from_json(result)
+    Models::Data(Models::Nest).from_json(result.body).attributes
   end
 
   def get_eggs(id : Int64 | Int32 | String)
     result = @client.get(build_path("/nests/#{id}/eggs"))
-    result
-    # EggList.from_json(result)
+    eggs = Models::APIResponse(Models::Egg).from_json result.body
+    eggs.data.map &.attributes
   end
 
   def get_egg(egg_id : Int64 | Int32 | String, nest_id : Int32 | Int64 | String)
     result = @client.get(build_path("/nests/#{nest_id}/eggs/#{egg_id}"))
-    result
-    # Egg.from_json(result)
+    Models::Data(Models::Egg).from_json(result.body).attributes
   end
 end
