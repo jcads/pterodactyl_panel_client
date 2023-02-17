@@ -27,7 +27,11 @@ module Pterodactyl
 
     def update_email(email : String)
       payload = {"email" => email, "password" => "password"}
-      @client.put build_path("/account/email"), body: payload.to_json
+      res = @client.put build_path("/account/email"), body: payload.to_json
+
+      if res.status_code >= 400
+        return_error(res)
+      end
     end
 
     def get_allocations : Array(Models::Allocation)
@@ -57,7 +61,11 @@ module Pterodactyl
     end
 
     def unassign_allocation(server : Models::ClientServer, allocation_id : Int64)
-      @client.delete base_path("/servers/#{server.identifier}/network/allocations/#{allocation_id}")
+      res = @client.delete base_path("/servers/#{server.identifier}/network/allocations/#{allocation_id}")
+
+      if res.status_code >= 400
+        return_error(res)
+      end
     end
 
     def get_backups(server : Models::ClientServer) : Models::Backup
@@ -125,6 +133,11 @@ module Pterodactyl
 
     private def build_path(resource_path)
       "#{base_path}#{resource_path}"
+    end
+
+    private def return_error(response : HTTP::Client::Response)
+      error_list = Models::ErrorList(Models::Error).from_json(response.body).errors
+      error_list[0]
     end
   end
 end
